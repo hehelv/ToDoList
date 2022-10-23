@@ -1,8 +1,11 @@
 package conf
 
 import (
+	"MyToDoList/cache"
+	"MyToDoList/model"
 	"MyToDoList/pkg/util"
 	"gopkg.in/ini.v1"
+	"strings"
 )
 
 var (
@@ -28,6 +31,9 @@ func Init() {
 	}
 	LoadServer(file)
 	LoadMysqlData(file)
+	path := strings.Join([]string{DbUser, ":", DbPassWord, "@tcp(", DbHost, ":", DbPort, ")/", DbName, "?charset=utf8&parseTime=true"}, "")
+	model.Database(path)
+	cache.Redis()
 }
 
 func LoadServer(file *ini.File) {
